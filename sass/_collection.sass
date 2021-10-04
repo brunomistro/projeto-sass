@@ -1,6 +1,22 @@
 $half-width: 50%
 $full-width: 100%
 
+@mixin theme-collection($half-post: true)
+	@include for-phone-only
+		width: $full-width
+	@if $half-post
+		width: $half-width
+	@else 
+		width: $full-width
+
+@mixin font-collection($half-title: true)
+	@include for-phone-only
+		@include fontSize(16px)
+	@if $half-title
+		@include fontSize(18px)
+	@else 
+		@include fontSize(22px)
+
 .collection
 	display: flex
 	flex-wrap: wrap
@@ -14,11 +30,14 @@ $full-width: 100%
 		width: 90%
 	
 	&__post
-		display: flex
+		@include flx(justify-content , center)
 		flex-wrap: wrap
-		justify-content: center
 		align-items: center
+		@include theme-collection($half-post: false)
 
+		&.half
+			@include theme-collection($half-post: true)
+		
 	&__figure
 		width: 50%
 	
@@ -39,9 +58,13 @@ $full-width: 100%
 		letter-spacing: 1px
 		width: 100%
 		margin: 10px 0
+		@include font-collection($half-title: false)
 		&:hover
 			color: $purple
 			text-decoration: underline
+
+		&.half
+			@include font-collection($half-title: true)
 
 	&__date
 		@extend %no-margin-top, %no-margin-bottom, %default-margin-left, %default-margin-right
